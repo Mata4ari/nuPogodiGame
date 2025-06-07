@@ -41,7 +41,7 @@ app.get('/', async (req, res) => {
   if (req.telegramUser) {
     const { id, username, first_name } = req.telegramUser;
 
-    const { error } = await supabase
+    const result = await supabase
       .from('users')
       .upsert(
         {
@@ -53,7 +53,8 @@ app.get('/', async (req, res) => {
         { onConflict: 'id' }
       );
 
-    if (error) console.error('Supabase error:', error);
+    if (result.error) console.error('Supabase error:', error);
+    console.log(result)
   }
 
   res.sendFile(__dirname + '/public/index.html');
