@@ -3,7 +3,7 @@ const { createClient } = require('@supabase/supabase-js');
 const crypto = require('crypto');
 
 const app = express();
-const supabase = createClient('https://abgbnyeuyovsiqqlihql.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZ2JueWV1eW92c2lxcWxpaHFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkzMDM4MDMsImV4cCI6MjA2NDg3OTgwM30._mhPapRZJkGZiT7UNdBt-wEzPzD1mjc39JPeBNF5LWc');
+const supabase = createClient(process.env.DB_URL, process.env.DB_TOKEN);
 
 // Middleware для обработки данных Telegram
 app.use((req, res, next) => {
@@ -12,7 +12,7 @@ app.use((req, res, next) => {
 
   try {
     // Проверяем подлинность данных (важно для безопасности!)
-    const botToken = '7658188514:AAEYOI6hoTyvnX2jFl9wRui2kDN8zsLR5iQ';
+    const botToken = process.env.BOT_TOKEN;
     const params = new URLSearchParams(initData);
     const hash = params.get('hash');
     params.delete('hash');
