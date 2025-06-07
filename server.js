@@ -10,6 +10,7 @@ const supabase = createClient(process.env.DB_URL, process.env.DB_TOKEN);
 // Обработчик главной страницы
 app.get('/', async (req, res) => {
     const initData = req.query.initData;
+    console.log(initData)
   if (initData) {
 
     const params = new URLSearchParams(initData);
