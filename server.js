@@ -5,31 +5,16 @@ const crypto = require('crypto');
 const app = express();
 const supabase = createClient(process.env.DB_URL, process.env.DB_TOKEN);
 
-// Middleware для обработки данных Telegram
-app.use((req, res, next) => {
-  console.log('req---')
-  const initData = req.headers['tg-web-app-initdata'];
-  console.log(initData)
-  if (!initData) return next();
 
-  try {
-    // Проверяем подлинность данных (важно для безопасности!)
-    const params = new URLSearchParams(initData);
-
-    
-    req.telegramUser = JSON.parse(params.get('user'));
-    console.log(req.telegramUser);
-    
-  } catch (err) {
-    console.error('Telegram data error:', err);
-  }
-  next();
-});
 
 // Обработчик главной страницы
 app.get('/', async (req, res) => {
-  if (req.telegramUser) {
-    const { id, username, first_name } = req.telegramUser;
+    const initData = req.query.initData;
+  if (initData) {
+
+    const params = new URLSearchParams(initData);
+    const userData = params.get('user');
+    const { id, username, first_name } = JSON.parse(userData);
 
     const result = await supabase
       .from('users')
