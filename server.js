@@ -7,6 +7,7 @@ const supabase = createClient(process.env.DB_URL, process.env.DB_TOKEN);
 
 // Middleware для обработки данных Telegram
 app.use((req, res, next) => {
+  console.log('request----')
   const initData = req.headers['tg-web-app-initdata']; // Telegram сам добавляет этот заголовок
   if (!initData) return next();
 
@@ -53,7 +54,7 @@ app.get('/', async (req, res) => {
         { onConflict: 'id' }
       );
 
-    if (result.error) console.error('Supabase error:', error);
+    if (result.error) console.log('Supabase error:', result.error);
     console.log(result)
   }
 
