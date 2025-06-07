@@ -2,9 +2,6 @@ const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
 const crypto = require('crypto');
 
-const { createClient } = require('@supabase/supabase-js');
-const crypto = require('crypto');
-
 const app = express();
 const supabase = createClient(process.env.DB_URL, process.env.DB_TOKEN);
 
