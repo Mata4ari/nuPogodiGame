@@ -7,30 +7,18 @@ const supabase = createClient(process.env.DB_URL, process.env.DB_TOKEN);
 
 // Middleware для обработки данных Telegram
 app.use((req, res, next) => {
-  console.log('request----')
+  console.log('req---')
   const initData = req.headers['tg-web-app-initdata']; // Telegram сам добавляет этот заголовок
   if (!initData) return next();
 
   try {
     // Проверяем подлинность данных (важно для безопасности!)
-    const botToken = process.env.BOT_TOKEN;
     const params = new URLSearchParams(initData);
-    const hash = params.get('hash');
-    params.delete('hash');
 
-    const secret = crypto.createHmac('sha256', 'WebAppData').update(botToken).digest();
-    const dataCheckString = Array.from(params.entries())
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([k, v]) => `${k}=${v}`)
-      .join('\n');
-
-    const calculatedHash = crypto.createHmac('sha256', secret)
-      .update(dataCheckString)
-      .digest('hex');
-
-    if (calculatedHash === hash) {
-      req.telegramUser = JSON.parse(params.get('user')); // Сохраняем пользователя в запросе
-    }
+    
+    req.telegramUser = JSON.parse(params.get('user'));
+    console.log(req.telegramUser);
+    
   } catch (err) {
     console.error('Telegram data error:', err);
   }
