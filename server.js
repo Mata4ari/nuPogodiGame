@@ -14,7 +14,9 @@ app.get('/', async (req, res) => {
   if (initData) {
 
     const params = new URLSearchParams(initData);
+    console.log(params)
     const userData = params.get('user');
+    console.log(userData)
     const { id, username, first_name } = JSON.parse(userData);
 
     const result = await supabase
