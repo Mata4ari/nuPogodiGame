@@ -8,7 +8,8 @@ const supabase = createClient(process.env.DB_URL, process.env.DB_TOKEN);
 // Middleware для обработки данных Telegram
 app.use((req, res, next) => {
   console.log('req---')
-  const initData = req.headers['tg-web-app-initdata']; // Telegram сам добавляет этот заголовок
+  const initData = req.headers['tg-web-app-initdata'];
+  console.log(initData)
   if (!initData) return next();
 
   try {
